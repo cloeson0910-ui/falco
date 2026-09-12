@@ -389,20 +389,11 @@
     pointer-events: none;
   }
 
-  .curtain-panel.left{ left: 0; transform: translateX(-100%); border-right: 3px solid #8a6a34; }
-  .curtain-panel.right{ right: 0; transform: translateX(100%); border-left: 3px solid #8a6a34; }
-
-  body.curtain-closing .curtain-panel.left{ transform: translateX(0); }
-  body.curtain-closing .curtain-panel.right{ transform: translateX(0); }
-
-  body.curtain-start-closed .curtain-panel.left,
-  body.curtain-start-closed .curtain-panel.right{ transform: translateX(0); transition: none; }
-
-  body.curtain-opening .curtain-panel.left{ transform: translateX(-100%); transition: transform 1.9s cubic-bezier(.45,0,.15,1); }
-  body.curtain-opening .curtain-panel.right{ transform: translateX(100%); transition: transform 1.9s cubic-bezier(.45,0,.15,1); }
+  .curtain-panel.left{ left: 0; transform: translateX(0); border-right: 3px solid #8a6a34; }
+  .curtain-panel.right{ right: 0; transform: translateX(0); border-left: 3px solid #8a6a34; }
 </style>
 </head>
-<body class="curtain-start-closed">
+<body>
 
 <div class="vignette"></div>
 
@@ -450,21 +441,31 @@
 <div class="curtain-panel right" aria-hidden="true"></div>
 
 <script>
+  var curtainLeft = document.querySelector('.curtain-panel.left');
+  var curtainRight = document.querySelector('.curtain-panel.right');
+  var CURTAIN_MS = 1900;
+
+  function openCurtain(){
+    curtainLeft.style.transform = 'translateX(-100%)';
+    curtainRight.style.transform = 'translateX(100%)';
+  }
+
+  function closeCurtain(callback){
+    curtainLeft.style.transform = 'translateX(0)';
+    curtainRight.style.transform = 'translateX(0)';
+    setTimeout(callback, CURTAIN_MS + 50);
+  }
+
   window.addEventListener('load', function(){
-    setTimeout(function(){
-      document.body.classList.remove('curtain-start-closed');
-      document.body.classList.add('curtain-opening');
-    }, 200);
+    setTimeout(openCurtain, 200);
   });
 
   document.getElementById('enterBtn').addEventListener('click', function(e){
     e.preventDefault();
     var href = this.getAttribute('href');
-    document.body.classList.remove('curtain-opening');
-    document.body.classList.add('curtain-closing');
-    setTimeout(function(){
+    closeCurtain(function(){
       window.location.href = href;
-    }, 1950);
+    });
   });
 </script>
 
