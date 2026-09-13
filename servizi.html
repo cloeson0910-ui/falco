@@ -212,14 +212,7 @@
   .curtain-panel.right{ right: 0; transform: translateX(0); border-left: 3px solid #8a6a34; }
 
   /* ---- Candele d'angolo ---- */
-  .corner-candles{
-    position: fixed;
-    top: 8px;
-    z-index: 3;
-    pointer-events: none;
-  }
-  .corner-candles.left{ left: 8px; transform: scale(0.42); transform-origin: top left; }
-  .corner-candles.right{ right: 8px; transform: scale(0.42) scaleX(-1); transform-origin: top right; }
+  /* ---- Candele accanto al titolo ---- */
 
   .candles{
     position: relative;
@@ -245,6 +238,7 @@
   .candle{ position:relative; width: 22px; display:flex; flex-direction:column; align-items:center; }
 
   .candle .flame-glow{
+    display:none;
     position:absolute; top: -46px; width: 90px; height: 90px; border-radius:50%;
     background: radial-gradient(circle, rgba(255,177,94,0.55) 0%, rgba(255,177,94,0.18) 40%, rgba(255,177,94,0) 72%);
     filter: blur(2px); animation: glowpulse 2.6s ease-in-out infinite; z-index: 1;
@@ -350,10 +344,23 @@
     box-shadow: inset -2px 0 3px rgba(0,0,0,0.25), inset 2px 0 2px rgba(255,255,255,0.25);
   }
 
+  .stage{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap: clamp(1rem, 5vw, 3rem);
+    flex-wrap: wrap;
+    margin-top: 0.6rem;
+  }
+
+  .candle.tall .body{ height: 190px; }
+  .candle.short .body{ height: 110px; }
+
   @media (max-width: 640px){
-    .corner-candles{ transform-origin: top left; }
-    .corner-candles.left{ transform: scale(0.3); }
-    .corner-candles.right{ transform: scale(0.3) scaleX(-1); }
+    .candle{ width: 14px; }
+    .candle.tall .body{ height: 120px; }
+    .candle .body{ height: 96px; }
+    .candle.short .body{ height: 70px; }
   }
 </style>
 </head>
@@ -368,22 +375,21 @@
   </filter>
 </svg>
 
-<div class="corner-candles left">
-  <div class="candles">
-    <div class="candle"><div class="flame-glow"></div><div class="flame"><div class="flame-outer"></div><div class="flame-inner"></div></div><div class="wick"></div><div class="body"><div class="drip"></div></div></div>
-    <div class="candle"><div class="flame-glow"></div><div class="flame"><div class="flame-outer"></div><div class="flame-inner"></div></div><div class="wick"></div><div class="body"><div class="drip"></div></div></div>
-  </div>
-</div>
-<div class="corner-candles right">
-  <div class="candles">
-    <div class="candle"><div class="flame-glow"></div><div class="flame"><div class="flame-outer"></div><div class="flame-inner"></div></div><div class="wick"></div><div class="body"><div class="drip"></div></div></div>
-    <div class="candle"><div class="flame-glow"></div><div class="flame"><div class="flame-outer"></div><div class="flame-inner"></div></div><div class="wick"></div><div class="body"><div class="drip"></div></div></div>
-  </div>
-</div>
-
 <header>
   <div class="eyebrow">Falco &middot; Onoranze Funebri</div>
-  <h1>I nostri servizi</h1>
+  <div class="stage">
+    <div class="candles left" aria-hidden="true">
+      <div class="candle short"><div class="flame-glow"></div><div class="flame"><div class="flame-outer"></div><div class="flame-inner"></div></div><div class="wick"></div><div class="body"><div class="drip"></div></div></div>
+      <div class="candle tall"><div class="flame-glow"></div><div class="flame"><div class="flame-outer"></div><div class="flame-inner"></div></div><div class="wick"></div><div class="body"><div class="drip"></div></div></div>
+      <div class="candle"><div class="flame-glow"></div><div class="flame"><div class="flame-outer"></div><div class="flame-inner"></div></div><div class="wick"></div><div class="body"><div class="drip"></div></div></div>
+    </div>
+    <h1>I nostri servizi</h1>
+    <div class="candles right" aria-hidden="true">
+      <div class="candle short"><div class="flame-glow"></div><div class="flame"><div class="flame-outer"></div><div class="flame-inner"></div></div><div class="wick"></div><div class="body"><div class="drip"></div></div></div>
+      <div class="candle tall"><div class="flame-glow"></div><div class="flame"><div class="flame-outer"></div><div class="flame-inner"></div></div><div class="wick"></div><div class="body"><div class="drip"></div></div></div>
+      <div class="candle"><div class="flame-glow"></div><div class="flame"><div class="flame-outer"></div><div class="flame-inner"></div></div><div class="wick"></div><div class="body"><div class="drip"></div></div></div>
+    </div>
+  </div>
 </header>
 
 <main>

@@ -88,9 +88,6 @@
   .curtain-panel.left{ left: 0; transform: translateX(0); border-right: 3px solid #8a6a34; }
   .curtain-panel.right{ right: 0; transform: translateX(0); border-left: 3px solid #8a6a34; }
 
-  .corner-candles{ position: fixed; top: 8px; z-index: 3; pointer-events: none; }
-  .corner-candles.left{ left: 8px; transform: scale(0.42); transform-origin: top left; }
-  .corner-candles.right{ right: 8px; transform: scale(0.42) scaleX(-1); transform-origin: top right; }
 
   .candles{ position: relative; display:flex; align-items:flex-end; gap: 1.6rem; }
   .candles::before{
@@ -101,6 +98,7 @@
 
   .candle{ position:relative; width: 22px; display:flex; flex-direction:column; align-items:center; }
   .candle .flame-glow{
+    display:none;
     position:absolute; top: -46px; width: 90px; height: 90px; border-radius:50%;
     background: radial-gradient(circle, rgba(255,177,94,0.55) 0%, rgba(255,177,94,0.18) 40%, rgba(255,177,94,0) 72%);
     filter: blur(2px); animation: glowpulse 2.6s ease-in-out infinite; z-index: 1;
@@ -129,6 +127,21 @@
     background: radial-gradient(ellipse at 50% 0%, rgba(255,177,94,0.6) 0%, rgba(255,177,94,0.22) 45%, transparent 78%);
     filter: blur(3px); animation: glowpulse 2.6s ease-in-out infinite; pointer-events:none; z-index:0;
   }
+
+  .candle .body::after{
+    content:'';
+    position:absolute;
+    bottom:-10px;
+    left:50%;
+    width: 90px;
+    height: 30px;
+    transform: translateX(-50%);
+    background: radial-gradient(ellipse at 50% 50%, rgba(255,250,235,0.7) 0%, rgba(255,250,235,0.25) 45%, transparent 78%);
+    filter: blur(4px);
+    animation: glowpulse 2.6s ease-in-out infinite;
+    pointer-events:none;
+    z-index:0;
+  }
   .candle .drip{ position:absolute; top: 10%; left: -1px; width: 4px; height: 30%; background: linear-gradient(180deg, #f3ead4, #cabb8e); border-radius: 0 0 3px 3px; }
 
   .candle:nth-child(1) .flame, .candle:nth-child(1) .flame-glow{ animation-delay: 0s; }
@@ -136,7 +149,9 @@
   .candle:nth-child(1) .flame-outer, .candle:nth-child(1) .flame-inner{ animation-delay: -0.3s; }
   .candle:nth-child(2) .flame-outer, .candle:nth-child(2) .flame-inner{ animation-delay: -0.9s; }
   .candle:nth-child(1) .body::before{ animation-delay: 0s; }
+  .candle:nth-child(1) .body::after{ animation-delay: 0s; }
   .candle:nth-child(2) .body::before{ animation-delay: -0.6s; }
+  .candle:nth-child(2) .body::after{ animation-delay: -0.6s; }
 
   @keyframes sway{
     0%{transform:rotate(0deg) skewX(0deg);} 18%{transform:rotate(-3.5deg) skewX(-2deg);} 34%{transform:rotate(2deg) skewX(1.5deg);}
@@ -155,10 +170,15 @@
     0%,100%{opacity:0.7;transform:scale(1);} 30%{opacity:0.95;transform:scale(1.08);} 55%{opacity:0.8;transform:scale(0.96);} 80%{opacity:1;transform:scale(1.12);}
   }
 
+  .stage{ display:flex; align-items:center; justify-content:center; gap: clamp(1rem, 5vw, 3rem); flex-wrap: wrap; margin-top: 0.6rem; }
+  .candle.tall .body{ height: 190px; }
+  .candle.short .body{ height: 110px; }
+
   @media (max-width: 640px){
-    .corner-candles{ transform-origin: top left; }
-    .corner-candles.left{ transform: scale(0.3); }
-    .corner-candles.right{ transform: scale(0.3) scaleX(-1); }
+    .candle{ width: 14px; }
+    .candle.tall .body{ height: 120px; }
+    .candle .body{ height: 96px; }
+    .candle.short .body{ height: 70px; }
   }
 </style>
 </head>
@@ -173,22 +193,21 @@
   </filter>
 </svg>
 
-<div class="corner-candles left">
-  <div class="candles">
-    <div class="candle"><div class="flame-glow"></div><div class="flame"><div class="flame-outer"></div><div class="flame-inner"></div></div><div class="wick"></div><div class="body"><div class="drip"></div></div></div>
-    <div class="candle"><div class="flame-glow"></div><div class="flame"><div class="flame-outer"></div><div class="flame-inner"></div></div><div class="wick"></div><div class="body"><div class="drip"></div></div></div>
-  </div>
-</div>
-<div class="corner-candles right">
-  <div class="candles">
-    <div class="candle"><div class="flame-glow"></div><div class="flame"><div class="flame-outer"></div><div class="flame-inner"></div></div><div class="wick"></div><div class="body"><div class="drip"></div></div></div>
-    <div class="candle"><div class="flame-glow"></div><div class="flame"><div class="flame-outer"></div><div class="flame-inner"></div></div><div class="wick"></div><div class="body"><div class="drip"></div></div></div>
-  </div>
-</div>
-
 <header>
   <div class="eyebrow">Falco &middot; Onoranze Funebri</div>
-  <h1>Pratiche burocratiche</h1>
+  <div class="stage">
+    <div class="candles left" aria-hidden="true">
+      <div class="candle short"><div class="flame-glow"></div><div class="flame"><div class="flame-outer"></div><div class="flame-inner"></div></div><div class="wick"></div><div class="body"><div class="drip"></div></div></div>
+      <div class="candle tall"><div class="flame-glow"></div><div class="flame"><div class="flame-outer"></div><div class="flame-inner"></div></div><div class="wick"></div><div class="body"><div class="drip"></div></div></div>
+      <div class="candle"><div class="flame-glow"></div><div class="flame"><div class="flame-outer"></div><div class="flame-inner"></div></div><div class="wick"></div><div class="body"><div class="drip"></div></div></div>
+    </div>
+    <h1>Pratiche burocratiche</h1>
+    <div class="candles right" aria-hidden="true">
+      <div class="candle short"><div class="flame-glow"></div><div class="flame"><div class="flame-outer"></div><div class="flame-inner"></div></div><div class="wick"></div><div class="body"><div class="drip"></div></div></div>
+      <div class="candle tall"><div class="flame-glow"></div><div class="flame"><div class="flame-outer"></div><div class="flame-inner"></div></div><div class="wick"></div><div class="body"><div class="drip"></div></div></div>
+      <div class="candle"><div class="flame-glow"></div><div class="flame"><div class="flame-outer"></div><div class="flame-inner"></div></div><div class="wick"></div><div class="body"><div class="drip"></div></div></div>
+    </div>
+  </div>
 </header>
 
 <main>
