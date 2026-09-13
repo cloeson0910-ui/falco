@@ -90,11 +90,25 @@
   }
 
   .card h2{
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 600;
-    font-size: 1.5rem;
-    color: var(--gold-light);
-    margin: 0 0 0.6rem;
+    font-family: 'EB Garamond', serif;
+    font-weight: 500;
+    font-size: clamp(0.8rem, 1.5vw, 1.05rem);
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 0 0 0.8rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap: 0.8rem;
+  }
+
+  .card h2::before,
+  .card h2::after{
+    content:'';
+    width: 22px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
   }
 
   .card p{

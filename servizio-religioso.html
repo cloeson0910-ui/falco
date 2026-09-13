@@ -39,6 +39,11 @@
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
 
+  .title-sub{ display:flex; align-items:center; justify-content:center; gap: 1rem; margin-top: 0.7rem; }
+  .title-sub .rule{ width: 34px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+  .title-sub span{ font-family:'EB Garamond', serif; font-weight:500; font-size: clamp(0.8rem, 1.5vw, 1.05rem); letter-spacing: 0.34em; color: var(--gold); text-transform: uppercase; white-space: nowrap; }
+  .header-brand{ display:flex; flex-direction:column; align-items:center; }
+
   main{ max-width: 720px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; text-align:center; }
   main p{ font-size: 1.1rem; line-height: 1.8; color: var(--smoke); }
 
@@ -175,14 +180,16 @@
 </svg>
 
 <header>
-  <div class="eyebrow">Falco &middot; Onoranze Funebri</div>
   <div class="stage">
     <div class="candles left" aria-hidden="true">
       <div class="candle short"><div class="flame-glow"></div><div class="flame"><div class="flame-outer"></div><div class="flame-inner"></div></div><div class="wick"></div><div class="body"><div class="drip"></div></div></div>
       <div class="candle tall"><div class="flame-glow"></div><div class="flame"><div class="flame-outer"></div><div class="flame-inner"></div></div><div class="wick"></div><div class="body"><div class="drip"></div></div></div>
       <div class="candle"><div class="flame-glow"></div><div class="flame"><div class="flame-outer"></div><div class="flame-inner"></div></div><div class="wick"></div><div class="body"><div class="drip"></div></div></div>
     </div>
-    <h1>Funerale religioso</h1>
+    <div class="header-brand">
+      <h1>Falco</h1>
+      <div class="title-sub"><div class="rule"></div><span>Funerale religioso</span><div class="rule"></div></div>
+    </div>
     <div class="candles right" aria-hidden="true">
       <div class="candle short"><div class="flame-glow"></div><div class="flame"><div class="flame-outer"></div><div class="flame-inner"></div></div><div class="wick"></div><div class="body"><div class="drip"></div></div></div>
       <div class="candle tall"><div class="flame-glow"></div><div class="flame"><div class="flame-outer"></div><div class="flame-inner"></div></div><div class="wick"></div><div class="body"><div class="drip"></div></div></div>
