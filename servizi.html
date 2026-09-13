@@ -12,6 +12,9 @@
     --gold-light: #f2dfb0;
     --gold: #cda15a;
     --gold-deep: #8a6a34;
+    --flame: #ffb15e;
+    --flame-core: #fff2d6;
+    --ember: #a8431f;
     --smoke: rgba(232, 214, 170, 0.55);
   }
 
@@ -71,11 +74,13 @@
   }
 
   .card{
+    position: relative;
     border: 1px solid rgba(205,161,90,0.28);
     padding: 1.8rem 1.6rem;
     border-radius: 3px;
     background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
     transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+    cursor: pointer;
   }
 
   .card:hover{
@@ -205,6 +210,151 @@
 
   .curtain-panel.left{ left: 0; transform: translateX(0); border-right: 3px solid #8a6a34; }
   .curtain-panel.right{ right: 0; transform: translateX(0); border-left: 3px solid #8a6a34; }
+
+  /* ---- Candele d'angolo ---- */
+  .corner-candles{
+    position: fixed;
+    top: 8px;
+    z-index: 3;
+    pointer-events: none;
+  }
+  .corner-candles.left{ left: 8px; transform: scale(0.42); transform-origin: top left; }
+  .corner-candles.right{ right: 8px; transform: scale(0.42) scaleX(-1); transform-origin: top right; }
+
+  .candles{
+    position: relative;
+    display:flex;
+    align-items:flex-end;
+    gap: 1.6rem;
+  }
+
+  .candles::before{
+    content: '';
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    width: 260px;
+    height: 260px;
+    transform: translateX(-50%);
+    background: radial-gradient(circle, rgba(255,177,94,0.30) 0%, rgba(255,177,94,0.10) 42%, rgba(255,177,94,0) 74%);
+    filter: blur(10px);
+    animation: glowpulse 2.6s ease-in-out infinite;
+    z-index: 0;
+  }
+
+  .candle{ position:relative; width: 22px; display:flex; flex-direction:column; align-items:center; }
+
+  .candle .flame-glow{
+    position:absolute; top: -46px; width: 90px; height: 90px; border-radius:50%;
+    background: radial-gradient(circle, rgba(255,177,94,0.55) 0%, rgba(255,177,94,0.18) 40%, rgba(255,177,94,0) 72%);
+    filter: blur(2px); animation: glowpulse 2.6s ease-in-out infinite; z-index: 1;
+  }
+
+  .candle .flame{ position: relative; width: 13px; height: 30px; margin-bottom: -3px; transform-origin: 50% 100%; animation: sway 2.3s ease-in-out infinite; z-index: 2; }
+
+  .candle .flame-outer{
+    position:absolute; bottom: 0; left: 50%; width: 13px; height: 30px; margin-left: -6.5px;
+    background: radial-gradient(ellipse at 50% 78%, var(--flame-core) 0%, var(--flame) 42%, var(--ember) 82%, transparent 100%);
+    border-radius: 50% 50% 50% 50% / 68% 68% 32% 32%; transform-origin: 50% 100%; animation: flicker-outer 1.9s ease-in-out infinite;
+  }
+
+  .candle .flame-inner{
+    position:absolute; bottom: 2px; left: 50%; width: 6px; height: 15px; margin-left: -3px;
+    background: radial-gradient(ellipse at 50% 80%, #fffef2 0%, #ffe9a8 55%, rgba(255,233,168,0) 100%);
+    border-radius: 50% 50% 50% 50% / 70% 70% 30% 30%; transform-origin: 50% 100%; animation: flicker-inner 1.9s ease-in-out infinite; mix-blend-mode: screen;
+  }
+
+  .candle .wick{ width: 2px; height: 6px; background: #2a2018; margin-bottom: -1px; z-index: 2; }
+
+  .candle .body{
+    width: 100%; height: 150px;
+    background: linear-gradient(180deg, #efe6d2 0%, #ddd0ab 35%, #cabb8e 65%, #b6a377 100%);
+    border-radius: 3px 3px 2px 2px;
+    box-shadow: inset -4px 0 6px rgba(0,0,0,0.25), inset 3px 0 4px rgba(255,255,255,0.3);
+    position: relative;
+  }
+
+  .candle .drip{ position:absolute; top: 10%; left: -1px; width: 4px; height: 30%; background: linear-gradient(180deg, #f3ead4, #cabb8e); border-radius: 0 0 3px 3px; }
+
+  .candle:nth-child(1) .flame, .candle:nth-child(1) .flame-glow{ animation-delay: 0s; }
+  .candle:nth-child(2) .flame, .candle:nth-child(2) .flame-glow{ animation-delay: -0.6s; }
+  .candle:nth-child(1) .flame-outer, .candle:nth-child(1) .flame-inner{ animation-delay: -0.3s; }
+  .candle:nth-child(2) .flame-outer, .candle:nth-child(2) .flame-inner{ animation-delay: -0.9s; }
+
+  @keyframes sway{
+    0%   { transform: rotate(0deg) skewX(0deg); }
+    18%  { transform: rotate(-3.5deg) skewX(-2deg); }
+    34%  { transform: rotate(2deg) skewX(1.5deg); }
+    52%  { transform: rotate(-1.5deg) skewX(-1deg); }
+    68%  { transform: rotate(3deg) skewX(2deg); }
+    83%  { transform: rotate(-2deg) skewX(-1.5deg); }
+    100% { transform: rotate(0deg) skewX(0deg); }
+  }
+
+  @keyframes flicker-outer{
+    0%   { transform: scaleY(1) scaleX(1); opacity: 1; }
+    15%  { transform: scaleY(1.12) scaleX(0.88); opacity: 0.94; }
+    30%  { transform: scaleY(0.86) scaleX(1.1); opacity: 1; }
+    45%  { transform: scaleY(1.06) scaleX(0.95); opacity: 0.9; }
+    60%  { transform: scaleY(0.92) scaleX(1.08); opacity: 1; }
+    75%  { transform: scaleY(1.1) scaleX(0.9); opacity: 0.95; }
+    90%  { transform: scaleY(0.95) scaleX(1.03); opacity: 1; }
+    100% { transform: scaleY(1) scaleX(1); opacity: 1; }
+  }
+
+  @keyframes flicker-inner{
+    0%   { transform: scaleY(1) scaleX(1); }
+    20%  { transform: scaleY(0.85) scaleX(1.15); }
+    38%  { transform: scaleY(1.15) scaleX(0.85); }
+    55%  { transform: scaleY(0.9) scaleX(1.1); }
+    72%  { transform: scaleY(1.1) scaleX(0.92); }
+    88%  { transform: scaleY(0.95) scaleX(1.05); }
+    100% { transform: scaleY(1) scaleX(1); }
+  }
+
+  @keyframes glowpulse{
+    0%, 100% { opacity: 0.7; transform: scale(1); }
+    30% { opacity: 0.95; transform: scale(1.08); }
+    55% { opacity: 0.8; transform: scale(0.96); }
+    80% { opacity: 1; transform: scale(1.12); }
+  }
+
+  /* ---- Mini candela nelle card ---- */
+  .card-candle{ width: 10px; height: 48px; margin: 0 auto 1rem; position: relative; }
+
+  .mini-glow{
+    position:absolute; bottom: 20px; left: 50%; width: 60px; height: 60px; transform: translateX(-50%);
+    border-radius:50%; background: radial-gradient(circle, rgba(255,177,94,0.5) 0%, rgba(255,177,94,0.15) 45%, rgba(255,177,94,0) 75%);
+    opacity: 0; transition: opacity 0.5s ease; filter: blur(4px); pointer-events:none;
+  }
+
+  .mini-flame{ position:absolute; bottom: 33px; left: 50%; width: 9px; height: 20px; margin-left: -4.5px; opacity: 0; transition: opacity 0.5s ease; transform-origin: 50% 100%; }
+  .mini-flame-outer{ position:absolute; inset:0; background: radial-gradient(ellipse at 50% 78%, var(--flame-core) 0%, var(--flame) 42%, var(--ember) 85%, transparent 100%); border-radius:50% 50% 50% 50% / 68% 68% 32% 32%; }
+  .mini-flame-inner{ position:absolute; bottom:2px; left:50%; width:4px; height:10px; margin-left:-2px; background: radial-gradient(ellipse at 50% 80%, #fffef2 0%, #ffe9a8 55%, rgba(255,233,168,0) 100%); border-radius:50% 50% 50% 50% / 70% 70% 30% 30%; mix-blend-mode:screen; }
+
+  .card:hover .mini-flame,
+  .card-candle.lit .mini-flame{ opacity:1; animation: sway 2.1s ease-in-out infinite; }
+  .card:hover .mini-flame-outer,
+  .card-candle.lit .mini-flame-outer{ animation: flicker-outer 1.7s ease-in-out infinite; }
+  .card:hover .mini-flame-inner,
+  .card-candle.lit .mini-flame-inner{ animation: flicker-inner 1.7s ease-in-out infinite; }
+  .card:hover .mini-glow,
+  .card-candle.lit .mini-glow{ opacity:1; animation: glowpulse 2.4s ease-in-out infinite; }
+
+  .mini-wick{ position:absolute; bottom: 30px; left: 50%; transform: translateX(-50%); width: 1.6px; height: 5px; background: #2a2018; }
+
+  .mini-body{
+    position:absolute; bottom:0; left:0; width:100%; height:30px;
+    background: linear-gradient(180deg, #efe6d2 0%, #ddd0ab 35%, #cabb8e 65%, #b6a377 100%);
+    border-radius: 2px 2px 1px 1px;
+    box-shadow: inset -2px 0 3px rgba(0,0,0,0.25), inset 2px 0 2px rgba(255,255,255,0.25);
+  }
+
+  @media (max-width: 640px){
+    .corner-candles{ transform-origin: top left; }
+    .corner-candles.left{ transform: scale(0.3); }
+    .corner-candles.right{ transform: scale(0.3) scaleX(-1); }
+  }
 </style>
 </head>
 <body>
@@ -218,6 +368,19 @@
   </filter>
 </svg>
 
+<div class="corner-candles left">
+  <div class="candles">
+    <div class="candle"><div class="flame-glow"></div><div class="flame"><div class="flame-outer"></div><div class="flame-inner"></div></div><div class="wick"></div><div class="body"><div class="drip"></div></div></div>
+    <div class="candle"><div class="flame-glow"></div><div class="flame"><div class="flame-outer"></div><div class="flame-inner"></div></div><div class="wick"></div><div class="body"><div class="drip"></div></div></div>
+  </div>
+</div>
+<div class="corner-candles right">
+  <div class="candles">
+    <div class="candle"><div class="flame-glow"></div><div class="flame"><div class="flame-outer"></div><div class="flame-inner"></div></div><div class="wick"></div><div class="body"><div class="drip"></div></div></div>
+    <div class="candle"><div class="flame-glow"></div><div class="flame"><div class="flame-outer"></div><div class="flame-inner"></div></div><div class="wick"></div><div class="body"><div class="drip"></div></div></div>
+  </div>
+</div>
+
 <header>
   <div class="eyebrow">Falco &middot; Onoranze Funebri</div>
   <h1>I nostri servizi</h1>
@@ -225,27 +388,33 @@
 
 <main>
   <div class="grid">
-    <div class="card">
+    <div class="card" data-href="servizio-religioso.html">
+      <div class="card-candle"><div class="mini-glow"></div><div class="mini-flame"><div class="mini-flame-outer"></div><div class="mini-flame-inner"></div></div><div class="mini-wick"></div><div class="mini-body"></div></div>
       <h2>Funerale religioso</h2>
       <p>Organizziamo la cerimonia secondo il rito e la tradizione della famiglia, curando ogni dettaglio con discrezione e rispetto.</p>
     </div>
-    <div class="card">
+    <div class="card" data-href="servizio-civile.html">
+      <div class="card-candle"><div class="mini-glow"></div><div class="mini-flame"><div class="mini-flame-outer"></div><div class="mini-flame-inner"></div></div><div class="mini-wick"></div><div class="mini-body"></div></div>
       <h2>Funerale civile</h2>
       <p>Un commiato laico e personale, pensato per raccontare la vita della persona cara con parole, musica e ricordi scelti insieme a voi.</p>
     </div>
-    <div class="card">
+    <div class="card" data-href="servizio-cremazione.html">
+      <div class="card-candle"><div class="mini-glow"></div><div class="mini-flame"><div class="mini-flame-outer"></div><div class="mini-flame-inner"></div></div><div class="mini-wick"></div><div class="mini-body"></div></div>
       <h2>Cremazione</h2>
       <p>Seguiamo l'intero percorso, dalle pratiche autorizzative alla consegna dell'urna, con la massima cura e trasparenza.</p>
     </div>
-    <div class="card">
+    <div class="card" data-href="servizio-trasporto.html">
+      <div class="card-candle"><div class="mini-glow"></div><div class="mini-flame"><div class="mini-flame-outer"></div><div class="mini-flame-inner"></div></div><div class="mini-wick"></div><div class="mini-body"></div></div>
       <h2>Trasporto salme</h2>
       <p>Trasporti in Italia e all'estero, gestiti con mezzi dedicati e personale qualificato, in ogni orario del giorno e della notte.</p>
     </div>
-    <div class="card">
+    <div class="card" data-href="servizio-pratiche.html">
+      <div class="card-candle"><div class="mini-glow"></div><div class="mini-flame"><div class="mini-flame-outer"></div><div class="mini-flame-inner"></div></div><div class="mini-wick"></div><div class="mini-body"></div></div>
       <h2>Pratiche burocratiche</h2>
       <p>Ci occupiamo di ogni documento e autorizzazione necessaria, per sollevare la famiglia da ogni incombenza in un momento difficile.</p>
     </div>
-    <div class="card">
+    <div class="card" data-href="servizio-fiori.html">
+      <div class="card-candle"><div class="mini-glow"></div><div class="mini-flame"><div class="mini-flame-outer"></div><div class="mini-flame-inner"></div></div><div class="mini-wick"></div><div class="mini-body"></div></div>
       <h2>Fiori e allestimenti</h2>
       <p>Composizioni floreali e allestimenti su misura, per accompagnare l'ultimo saluto con la giusta delicatezza.</p>
     </div>
@@ -288,6 +457,22 @@
     var href = this.getAttribute('href');
     closeCurtain(function(){
       window.location.href = href;
+    });
+  });
+
+  document.querySelectorAll('.card').forEach(function(card){
+    var candle = card.querySelector('.card-candle');
+    var navigating = false;
+    card.addEventListener('click', function(){
+      if(navigating) return;
+      navigating = true;
+      var href = card.getAttribute('data-href');
+      candle.classList.add('lit');
+      setTimeout(function(){
+        closeCurtain(function(){
+          window.location.href = href;
+        });
+      }, 2000);
     });
   });
 </script>
